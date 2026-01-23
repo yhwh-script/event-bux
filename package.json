@@ -1,0 +1,17 @@
+{
+    "author": "Jahrome <yhwhscript@gmail.com>",
+    "description": "An Event Bus written in less then 100 LOC vanilla JS. You can use it with standard WebComponents.",
+    "keywords": [
+        "EventBus",
+        "JavaScript",
+        "Module",
+        "Vanilla"
+    ],
+    "license": "Unlicense",
+    "name": "@yhwh-script/event-bux",
+    "publishConfig": {
+        "access": "public"
+    },
+    "type": "module",
+    "version": "1.0.0"
+}
