@@ -8,10 +8,10 @@ export const addEventListener = function (type, listener, context = undefined) {
             listeners.set(context, new Map()); // will be stored here
         }
         const contextListeners = listeners.get(context);
-        if (!contextListeners.has(type)) { // eventName is not yet registered
+        if (!contextListeners.has(type)) { // type is not yet registered
             contextListeners.set(type, []);
         } // next push the handler to the WeakMap for the given context
-        contextListeners.get(eventName).push(listener);
+        contextListeners.get(type).push(listener);
     } else { // default
         if (context) { // illegal context
             throw new Error("Syntax error.")
