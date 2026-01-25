@@ -19,7 +19,7 @@ classDiagram
 
 ## How-To
 
-After importing this module in your code, it is recommended to add it to the window object:
+For instance: 
 
 ```javascript
 <script type="module">
@@ -27,4 +27,15 @@ After importing this module in your code, it is recommended to add it to the win
   window.bus = bus;
 </script>
 ```
-Then use `bus.addEventListener(type, listener)` and `bus.dispatchEvent(type, event)` to send event between components.
+
+After importing `@yhwh-script/event-bux`, it is recommended to add it to the `window` object.
+
+You can use your own import or stick to other `@yhwh-script` examples
+
+Then use `bus.addEventListener(type, listener)` and `bus.dispatchEvent(type, event)` in your WebComponents. You are not bound to event bubbling or capturing (which are the standard event propagation mechanisms), but you can send events even between WebComponents! Check it out!
+
+![EventBus schema](eventbus.png)
+
+## Contribute
+
+Welcome!

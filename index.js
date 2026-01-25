@@ -1,7 +1,8 @@
+export const name = "eventbux"; // The module name, can be made globally available via the window object, which should be on top.
 const listeners = new WeakMap(); // WeakMap to store listeners per object. Keep it private unless you know what you do.
-// Should auto-cleanup listeners when object is GC'd
-// implements EventTarget
-export const addEventListener = function (type, listener, context = undefined) {
+// Should auto-cleanup listeners when object is GC'd (TODO Test!)
+// This module implements EventTarget.
+export const addEventListener = function (type, listener, context = undefined) { // (TODO check integration into options)
     if (context && typeof context === 'object') { // context is well defined, should be a WebComponent
         if (!listeners.has(context)) { // context is yet unknown to the listeners
             listeners.set(context, new Map()); // will be stored here
@@ -12,8 +13,8 @@ export const addEventListener = function (type, listener, context = undefined) {
         } // next push the handler to the WeakMap for the given context
         contextListeners.get(eventName).push(listener);
     } else { // default
-        if (context) {
-            throw new Error("Syntax error.") // illegal context
+        if (context) { // illegal context
+            throw new Error("Syntax error.")
         }
         window.addEventListener(type, listener);
     }
@@ -34,7 +35,7 @@ export const removeEventListener = function (type, listener, context = undefined
     }
 }
 
-export const dispatchEvent = function (event, context = undefined) {
+export const dispatchEvent = function (event, context = undefined) { // TODO check if context == event.target, if yes, remove context? What if CustomEvent is used?
     if (context && listeners.has(context)) {
         const contextListeners = listeners.get(context);
         if (contextListeners.has(event.type)) { // Call context-specific listeners
