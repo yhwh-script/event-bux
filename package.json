@@ -22,5 +22,5 @@
         "url": "git+https://github.com/yhwh-script/event-bux.git"
     },
     "type": "module",
-    "version": "1.0.6"
+    "version": "1.0.7"
 }
