@@ -2,7 +2,7 @@ export const name = "eventbux"; // The module name, can be made globally availab
 const listeners = new WeakMap(); // WeakMap to store listeners per object. Keep it private unless you know what you do.
 // Should auto-cleanup listeners when object is GC'd (TODO Test!)
 // This module implements EventTarget.
-export const addEventListener = function (type, listener, context = undefined) { // (TODO check integration into options)
+export function addEventListener(type, listener, context = undefined) { // (TODO check integration into options)
     if (context && typeof context === 'object') { // context is well defined, should be a WebComponent
         if (!listeners.has(context)) { // context is yet unknown to the listeners
             listeners.set(context, new Map()); // will be stored here
@@ -14,13 +14,13 @@ export const addEventListener = function (type, listener, context = undefined) {
         contextListeners.get(type).push(listener);
     } else { // default
         if (context) { // illegal context
-            throw new Error("Syntax error.")
+            throw new Error("Syntax error.");
         }
         window.addEventListener(type, listener);
     }
 }
 
-export const removeEventListener = function (type, listener, context = undefined) {
+export function removeEventListener(type, listener, context = undefined) {
     if (context && typeof context === 'object') {
         const contextListeners = listeners.get(context);
         if (contextListeners && contextListeners.has(type)) {
@@ -35,7 +35,10 @@ export const removeEventListener = function (type, listener, context = undefined
     }
 }
 
-export const dispatchEvent = function (event, context = undefined) { // TODO check if context == event.target, if yes, remove context? What if CustomEvent is used?
+export function dispatchEvent(event, context = undefined) { // TODO check if context == event.target, if yes, remove context? What if CustomEvent is used?
+    if (!context) { // observe!
+        context = event.target; 
+    }
     if (context && listeners.has(context)) {
         const contextListeners = listeners.get(context);
         if (contextListeners.has(event.type)) { // Call context-specific listeners
