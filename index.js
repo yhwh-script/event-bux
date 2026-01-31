@@ -1,4 +1,4 @@
-export const name = "eventbux"; // The module name, can be made globally available via the window object, which should be on top.
+export const name = "eventbus"; // The module name, can be made globally available via the window object, which should be on top.
 const listeners = new WeakMap(); // WeakMap to store listeners per object. Keep it private unless you know what you do.
 // Should auto-cleanup listeners when object is GC'd (TODO Test!)
 // This module implements EventTarget.
@@ -36,8 +36,12 @@ export function removeEventListener(type, listener, context = undefined) {
 }
 
 export function dispatchEvent(event, context = undefined) { // TODO check if context == event.target, if yes, remove context? What if CustomEvent is used?
-    if (!context) { // observe!
-        context = event.target; 
+    if (!context) {
+        if (event instanceof CustomEvent) {
+            context = event.detail.target;
+        } else {
+            context = event.target;
+        }
     }
     if (context && listeners.has(context)) {
         const contextListeners = listeners.get(context);
