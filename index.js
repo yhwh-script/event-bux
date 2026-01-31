@@ -35,7 +35,7 @@ export function removeEventListener(type, listener, context = undefined) {
     }
 }
 
-export function dispatchEvent(event, context = undefined) { // TODO check if context == event.target, if yes, remove context? What if CustomEvent is used?
+export function dispatchEvent(event, context = undefined) {
     if (!context) {
         if (event instanceof CustomEvent) {
             context = event.detail.target;
